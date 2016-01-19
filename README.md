@@ -8,7 +8,7 @@ The current version is 1.2 as of 2007-2015.
 
 Example of automatically indented code using this indent script.  All leading spaces are tabs below:
 <pre>
-<?php
+
 	$var = array(
 		'one' => 1,
 		'two' => 2
