@@ -2,8 +2,8 @@
 " Language:	PHP
 " Author:	Miles Lott <milos@groupwhere.org>
 " URL:		https://www.groupwhere.org/php.vim
-" Last Change:	2007 February 18
-" Version:	1.2
+" Last Change:	2019 June 23
+" Version:	1.3
 " Notes:  Close all switches with default:\nbreak; and it will look better.
 "         Also, open and close brackets should be alone on a line.
 "         This is my preference, and the only way this will look nice.
@@ -12,7 +12,11 @@
 "         stance on brackets.  Also note that we do not attempt to format html
 "         code.
 "
-" Changes: 1.2 - Found syntax error in renaming of variable after 0.7 which
+"         In case you were searching for this, to set options enter:
+"           let OPTIONNAME=1 in your .vimrc
+"
+" Changes: 1.3 - Add option to force indent using spaces instead of tabs
+"          1.2 - Found syntax error in renaming of variable after 0.7 which
 "            broke the formatting of switch/case
 "          1.1 - Sameday change/fix to skip lines commented by # also
 "          1.0 - Sameday change/fix to skip lines commented by // (Don't format other code
@@ -29,6 +33,8 @@
 " Options: php_noindent_switch=1 -- do not try to indent switch/case statements or comments (version 0.1 behavior)
 "          php_indent_shortopentags=1 -- indent after short php open tags, too
 "          php_no_autocomment=1  -- do not automatically format comment sections
+"          php_indent_space=1 -- Use spaces instead of tabs...
+"
 
 " Only load this indent file when no other was loaded.
 if exists("b:did_indent")
@@ -55,6 +61,11 @@ endif
 " Handle option(s)
 if exists("php_noindent_switch")
 	let b:php_noindent_switch=1
+endif
+
+if exists("php_indent_space")
+	setlocal expandtab
+	setlocal ts=4
 endif
 
 let s:autorestoptions = 0
