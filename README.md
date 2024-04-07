@@ -32,10 +32,10 @@ NOTE: This script is no longer included in Vim as of 7.0, yet was replaced by an
 ## Options
   These can optionally be added to your vimrc:
 
-    php_noindent_switch -- do not try to indent switch/case statements or comments (version 0.1 behavior)
-    php_indent_shortopentags -- indent after short php open tags, too
-    php_no_autocomment  -- do not automatically format comment sections
-    php_indent_space -- Use spaces instead of tabs [ This may work already if you have expandtab set in your config. ]
+    - php_noindent_switch -- do not try to indent switch/case statements or comments (version 0.1 behavior)
+    - php_indent_shortopentags -- indent after short php open tags, too
+    - php_no_autocomment  -- do not automatically format comment sections
+    - php_indent_space -- Use spaces instead of tabs [ This may work already if you have expandtab set in your config. ]
 
 ## Sample
 
