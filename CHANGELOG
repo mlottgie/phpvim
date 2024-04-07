@@ -1,4 +1,6 @@
-Changes: 1.3 - Add option to force indent using spaces instead of tabs
+Changes: 1.4 - Add formatting of heredoc instances in code
+             - Fix indentation of lines following a // or # comment line
+         1.3 - Add option to force indent using spaces instead of tabs
          1.2 - Found syntax error in renaming of variable after 0.7 which
            broke the formatting of switch/case
          1.1 - Sameday change/fix to skip lines commented by # also
@@ -12,4 +14,3 @@ Changes: 1.3 - Add option to force indent using spaces instead of tabs
          0.5 - fix duplicate indent on open tag, and empty bracketed statements.
          0.4 - Fixes for closing php tag, switch statement closure, and php_indent_shortopentags
            option from Steffen Bruentjen <vim@kontraphon.de>
-"
