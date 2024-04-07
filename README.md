@@ -12,9 +12,11 @@ See the CHANGELOG or the script itself for more information
 
 Comment sections are automatically formatted, adding the * on a new line until closure by */ :
 
+```php
 /* Comment line 1
  * Line 2
  */
+```
 
 Comments done using # also receive a new line with the # prepended.  But, you will have to end it manually since there is no difference between lines and the end of such sections.
 
