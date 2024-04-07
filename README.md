@@ -1,16 +1,41 @@
-This vim indent script for PHP was included in versions 6.X of the official vim distribution.
-It was replaced by another script which seems to work for some.  But, it never works for the way
-I like to indent php code.
+# php.vim
 
-In general, I prefer to use tab indentation and do not mix html and php code where it can be avoided.
+## Overview
+This was the original vim php indent file written in 2002 and included in Vim 6.X releases.  It still works with the latest 9.X release.
+
+Indents after <?php tag, <? tag (optional), ( )or { }.  The script can also format switch/case statements and more recently will automatically format /* comment sections */
+
+
+NOTE: 1.4 adds experimental formatting (or rather, not formatting) of heredoc.
+
+See the CHANGELOG or the script itself for more information
+
+Comment sections are automatically formatted, adding the * on a new line until closure by */ :
+
+/* Comment line 1
+ * Line 2
+ */
+
+Comments done using # also receive a new line with the # prepended.  But, you will have to end it manually since there is no difference between lines and the end of such sections.
+
+Comments done using // also receive a new line with the // prepended.  But, you will have to end it manually since there is no difference between lines and the end of such sections.
+
+It was not designed to and will not handle if blocks etc. without brackets and also does not format html.  Please use braces and separate display logic for more readable code.
+
+## Installation
+Place in your /usr/share/vim/vim8X/indent directory (e.g. /usr/share/vim/vim81/indent), replacing the version which is installed by default.
+
+NOTE: This script is no longer included in Vim as of 7.0, yet was replaced by another script.  After many years I still use this one with Vim 7.X and 8.X because it handles tab indentation correctly without adding spaces, etc.  The current official script seems to favor the use of spaces and if you want to always start with a tab you will have to enter that yourself on a new line after a closing bracket.  You're welcome to submit ideas for improvement.
 
 ## Options
-  - php_noindent_switch=1 -- do not try to indent switch/case statements or comments (version 0.1 behavior)
-  - php_indent_shortopentags=1 -- indent after short php open tags, too
-  - php_no_autocomment=1  -- do not automatically format comment sections
-  - php_indent_space=1 -- Use spaces instead of tabs...
+  These can optionally be added to your vimrc:
 
-The current version is 1.3 as of 2019
+    php_noindent_switch -- do not try to indent switch/case statements or comments (version 0.1 behavior)
+    php_indent_shortopentags -- indent after short php open tags, too
+    php_no_autocomment  -- do not automatically format comment sections
+    php_indent_space -- Use spaces instead of tabs [ This may work already if you have expandtab set in your config. ]
+
+## Sample
 
 Example of automatically indented code using this indent script.  All leading whitespace is tab below:
 ```php
@@ -40,4 +65,5 @@ Example of automatically indented code using this indent script.  All leading wh
 			echo "No!\n";
 	}
 ```
+
 
