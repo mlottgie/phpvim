@@ -1,4 +1,4 @@
-# php.vim
+# PHP Indent file for Vim (php.vim)
 
 ## Overview
 This was the original vim php indent file written in 2002 and included in Vim 6.X releases.  It still works with the latest 9.X release.
