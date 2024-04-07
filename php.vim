@@ -1,9 +1,9 @@
 " Vim indent file
 " Language:	PHP
 " Author:	Miles Lott <milos@groupwhere.org>
-" URL:		https://www.groupwhere.org/php.vim
-" Last Change:	2019 June 23
-" Version:	1.3
+" URL:		https://github.com/groupwhere/phpvim
+" Last Change:	7 Apr 2024
+" Version:	1.4
 " Notes:  Close all switches with default:\nbreak; and it will look better.
 "         Also, open and close brackets should be alone on a line.
 "         This is my preference, and the only way this will look nice.
@@ -15,7 +15,9 @@
 "         In case you were searching for this, to set options enter:
 "           let OPTIONNAME=1 in your .vimrc
 "
-" Changes: 1.3 - Add option to force indent using spaces instead of tabs
+" Changes: 1.4 - Add formatting of heredoc instances in code
+"              - Fix indentation of lines following a // or # comment line
+"          1.3 - Add option to force indent using spaces instead of tabs
 "          1.2 - Found syntax error in renaming of variable after 0.7 which
 "            broke the formatting of switch/case
 "          1.1 - Sameday change/fix to skip lines commented by # also
@@ -68,6 +70,10 @@ if exists("php_indent_space")
 	setlocal ts=4
 endif
 
+let g:herestart = 0
+let g:hereend = 0
+let g:heretag = ""
+
 let s:autorestoptions = 0
 if ! s:autorestoptions
 	au BufWinEnter,Syntax	*.php,*.php3,*.php4,*.php5	call ResetOptions()
@@ -93,6 +99,7 @@ endfunc
 function GetPhpIndent()
 	" Find a non-blank line above the current line.
 	let lnum = prevnonblank(v:lnum - 1)
+	let lcurr = v:lnum
 	" Hit the start of the file, use zero indent.
 	if lnum == 0
 		return 0
@@ -103,15 +110,16 @@ function GetPhpIndent()
 	let pline = getline(lnum - 1) " previous to last line
 	let ind = indent(lnum)
 
-	" Indent after php open tag
 	if line =~ '<?php'
+		" Indent after php open tag
 		let ind = ind + &sw
 	elseif exists('g:php_indent_shortopentags')
-		" indent after short open tag
+		" Indent after short open tag
 		if line =~ '<?'
 			let ind = ind + &sw
 		endif
 	endif
+
 	" indent after php closing tag
 	if cline =~ '\M?>'
 		let ind = ind - &sw
@@ -127,14 +135,40 @@ function GetPhpIndent()
 		endif
 		return ind
 	else " Post 0.1 behavior, main logic
-		" Fix indenting for // and # style comments
-		if line =~ '//' && cline =~ '//'
-			let ind = lindent
-			return ind
+		" Skip indenting heredoc
+		if cline =~ '^\(.*\)<<<\s\(.*\)$'
+			" Detect heredoc start
+			let l:matches = matchlist(cline, '^\(.*\)<<<\s\(.*\)$')
+			let g:heretag = l:matches[2]
+			let g:herestart = lnum + 2
+			" Find heredoc end
+			let g:hereend = searchpair(g:heretag, '', g:heretag, 'b') - 1
+			echom 'Set heretag to "' . g:heretag . '" and herestart to ' . g:herestart . ', hereend is ' . g:hereend
 		endif
-		if line =~ '#' && cline =~ '#'
-			let ind = lindent
-			return ind
+
+		"echom 'LINE: ' . lcurr . ', HERE: ' . g:herestart . '>' . g:hereend . ', IND: ' . ind
+		if g:herestart > 0 && g:hereend > 0
+			echom 'Heredoc found'
+			if lcurr >= g:herestart
+				echom 'Line greater than heredoc start'
+				if lcurr <= g:hereend
+					echom 'Line less than heredoc end'
+					" Retain indentation for this line
+					return indent(v:lnum)
+				endif
+			endif
+		endif
+
+		" Fix indenting for // and # style comments
+		if line =~ '//' " && cline =~ '//'
+			return indent(v:lnum)
+			"let ind = lindent
+			"return ind
+		endif
+		if line =~ '#' " && cline =~ '#'
+			return indent(v:lnum)
+			"let ind = lindent
+			"return ind
 		endif
 		" Search the matching bracket (with searchpair()) and set the indent of
 		" to the indent of the matching line.
