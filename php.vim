@@ -143,16 +143,16 @@ function GetPhpIndent()
 			let g:herestart = lnum + 2
 			" Find heredoc end
 			let g:hereend = searchpair(g:heretag, '', g:heretag, 'b') - 1
-			echom 'Set heretag to "' . g:heretag . '" and herestart to ' . g:herestart . ', hereend is ' . g:hereend
+			"echom 'Set heretag to "' . g:heretag . '" and herestart to ' . g:herestart . ', hereend is ' . g:hereend
 		endif
 
 		"echom 'LINE: ' . lcurr . ', HERE: ' . g:herestart . '>' . g:hereend . ', IND: ' . ind
 		if g:herestart > 0 && g:hereend > 0
-			echom 'Heredoc found'
+			"echom 'Heredoc found'
 			if lcurr >= g:herestart
-				echom 'Line greater than heredoc start'
+				"echom 'Line greater than heredoc start'
 				if lcurr <= g:hereend
-					echom 'Line less than heredoc end'
+					"echom 'Line less than heredoc end'
 					" Retain indentation for this line
 					return indent(v:lnum)
 				endif
